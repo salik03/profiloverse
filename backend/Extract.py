@@ -1,4 +1,3 @@
-#web scraping
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 import time
