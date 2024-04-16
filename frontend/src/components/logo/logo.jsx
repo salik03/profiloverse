@@ -4,8 +4,9 @@ import { forwardRef } from 'react';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 
-import { RouterLink } from 'src/routes/components'; // Add space between imports
-import profiloverseLogo from 'src/components/logo/PROfiloverse.png'; // Add space between imports
+import { RouterLink } from 'src/routes/components'; 
+
+import profiloverseLogo from 'src/components/logo/PROfiloverse.png'; 
 
 const Logo = forwardRef(({ disabledLink = false, sx, ...other }, ref) => {
   // Remove unused variable 'useTheme'
