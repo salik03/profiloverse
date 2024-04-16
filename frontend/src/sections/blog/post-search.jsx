@@ -9,10 +9,10 @@ import Iconify from 'src/components/iconify';
 // ----------------------------------------------------------------------
 
 PostSearch.propTypes = {
-  posts: PropTypes.array.isRequired,
+  jobs: PropTypes.array.isRequired,
 };
 
-export default function PostSearch({ posts }) {
+export default function PostSearch({ jobs }) {
   return (
     <Autocomplete
       sx={{ width: 280 }}
@@ -28,7 +28,7 @@ export default function PostSearch({ posts }) {
           },
         },
       }}
-      options={posts}
+      options={jobs}
       getOptionLabel={(post) => post.title}
       isOptionEqualToValue={(option, value) => option.id === value.id}
       renderInput={(params) => (

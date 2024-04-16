@@ -4,7 +4,7 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 
-import { posts } from 'src/_mock/blog';
+import { jobs } from 'src/_mock/blog';
 
 import Iconify from 'src/components/iconify';
 
@@ -26,7 +26,7 @@ export default function BlogView() {
       </Stack>
 
       <Stack mb={5} direction="row" alignItems="center" justifyContent="space-between">
-        <PostSearch posts={posts} />
+        <PostSearch jobs={jobs} />
         <PostSort
           options={[
             { value: 'latest', label: 'Latest' },
@@ -37,7 +37,7 @@ export default function BlogView() {
       </Stack>
 
       <Grid container spacing={3}>
-        {posts.map((post, index) => (
+        {jobs.map((post, index) => (
           <PostCard key={post.id} post={post} index={index} />
         ))}
       </Grid>

@@ -6,7 +6,6 @@ import Typography from '@mui/material/Typography';
 
 import Iconify from 'src/components/iconify';
 
-import AppTasks from '../app-tasks';
 import AppNewsUpdate from '../app-news-update';
 import AppOrderTimeline from '../app-order-timeline';
 import AppCurrentVisits from '../app-current-visits';
@@ -22,7 +21,7 @@ export default function AppView() {
   return (
     <Container maxWidth="xl">
       <Typography variant="h4" sx={{ mb: 5 }}>
-        Hi, Welcome back 👋
+        Hi, Welcome back 👋 
       </Typography>
 
       <Grid container spacing={3}>
@@ -155,11 +154,11 @@ export default function AppView() {
 
         <Grid xs={12} md={6} lg={8}>
           <AppNewsUpdate
-            title="News Update"
+            title="Recent Job Updates"
             list={[...Array(5)].map((_, index) => ({
               id: faker.string.uuid(),
               title: faker.person.jobTitle(),
-              description: faker.commerce.productDescription(),
+              description: faker.company.name(),
               image: `/assets/images/covers/cover_${index + 1}.jpg`,
               postedAt: faker.date.recent(),
             }))}
@@ -168,15 +167,15 @@ export default function AppView() {
 
         <Grid xs={12} md={6} lg={4}>
           <AppOrderTimeline
-            title="Order Timeline"
+            title="Internship Timeline"
             list={[...Array(5)].map((_, index) => ({
               id: faker.string.uuid(),
               title: [
-                '1983, orders, $4220',
-                '12 Invoices have been paid',
-                'Order #37745 from September',
-                'New order placed #XF-2356',
-                'New order placed #XF-2346',
+                'Applied at Microsoft for Software Developer Position',
+                'Resume has been noticed',
+                'Resume in review',
+                'Interview to be scheduled',
+                'Confirmation Pending',
               ][index],
               type: `order${index + 1}`,
               time: faker.date.past(),
@@ -186,7 +185,7 @@ export default function AppView() {
 
         <Grid xs={12} md={6} lg={4}>
           <AppTrafficBySite
-            title="Traffic by Site"
+            title="Hiring Trends"
             list={[
               {
                 name: 'FaceBook',
@@ -212,18 +211,6 @@ export default function AppView() {
           />
         </Grid>
 
-        <Grid xs={12} md={6} lg={8}>
-          <AppTasks
-            title="Tasks"
-            list={[
-              { id: '1', name: 'Create FireStone Logo' },
-              { id: '2', name: 'Add SCSS and JS files if required' },
-              { id: '3', name: 'Stakeholder Meeting' },
-              { id: '4', name: 'Scoping & Estimations' },
-              { id: '5', name: 'Sprint Showcase' },
-            ]}
-          />
-        </Grid>
       </Grid>
     </Container>
   );
