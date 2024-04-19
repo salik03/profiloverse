@@ -9,8 +9,7 @@ import { RouterLink } from 'src/routes/components';
 import profiloverseLogo from 'src/components/logo/PROfiloverse.png'; 
 
 const Logo = forwardRef(({ disabledLink = false, sx, ...other }, ref) => {
-  // Remove unused variable 'useTheme'
-  // const theme = useTheme();
+
 
   const logo = (
     <Box

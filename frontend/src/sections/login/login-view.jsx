@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
@@ -20,7 +21,7 @@ import { bgGradient } from 'src/theme/css';
 import Logo from 'src/components/logo';
 import Iconify from 'src/components/iconify';
 
-// ----------------------------------------------------------------------
+import { auth } from "../../../firebase"
 
 export default function LoginView() {
   const theme = useTheme();
@@ -28,15 +29,32 @@ export default function LoginView() {
   const router = useRouter();
 
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
 
-  const handleClick = () => {
-    router.push('/dashboard');
-  };
+
+
+  const signIn = (e) => {
+    e.preventDefault();
+    signInWithEmailAndPassword(auth, email, password).then((userCredential) => {
+      console.log(userCredential);
+      router.push('/');
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
+  }
 
   const renderForm = (
     <>
       <Stack spacing={3}>
-        <TextField name="email" label="Email address" />
+        <TextField 
+          name="email" 
+          label="Email address" 
+          value = {email}
+          onChange={(e) => setEmail(e.target.value)}
+          />
 
         <TextField
           name="password"
@@ -51,6 +69,8 @@ export default function LoginView() {
               </InputAdornment>
             ),
           }}
+          value = {password}
+          onChange={(e) => setPassword(e.target.value)}
         />
       </Stack>
 
@@ -66,7 +86,7 @@ export default function LoginView() {
         type="submit"
         variant="contained"
         color="inherit"
-        onClick={handleClick}
+        onClick={signIn}
       >
         Login
       </LoadingButton>
@@ -99,14 +119,11 @@ export default function LoginView() {
             maxWidth: 420,
           }}
         >
-          <Typography variant="h4">Sign in to Profiloverse</Typography>
+          <Typography variant="h4">Sign in to Profiloverse!</Typography>
 
-          <Typography variant="body2" sx={{ mt: 2, mb: 5 }}>
+          <Button variant="body2" color='inherit' sx={{ mt: 2, mb: 5 }}>
             Don’t have an account?
-            <Link variant="subtitle2" sx={{ ml: 0.5 }}>
-              Get started
-            </Link>
-          </Typography>
+          </Button>
 
           <Stack direction="row" spacing={2}>
             <Button
