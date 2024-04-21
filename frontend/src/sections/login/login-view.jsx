@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
 
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
@@ -13,6 +13,7 @@ import IconButton from '@mui/material/IconButton';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { alpha, useTheme } from '@mui/material/styles';
 import InputAdornment from '@mui/material/InputAdornment';
+import { Alert, Snackbar, Dialog, DialogTitle, DialogActions,  DialogContent} from '@mui/material';
 
 import { useRouter } from 'src/routes/hooks';
 
@@ -31,20 +32,125 @@ export default function LoginView() {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-
-
+  const [openSignup, setOpenSignup] = useState(false);
+  const [signupEmail, setSignupEmail] = useState('');
+  const [signupPassword, setSignupPassword] = useState('');
+  const [fullName, setFullName] = useState('');
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState('info');
 
   const signIn = (e) => {
     e.preventDefault();
-    signInWithEmailAndPassword(auth, email, password).then((userCredential) => {
-      console.log(userCredential);
-      router.push('/');
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        setSnackbarMessage('Login successful!');
+        setSnackbarSeverity('success');
+        setSnackbarOpen(true);
+        router.push('/');  
+      })
+      .catch((error) => {
+        console.error("Login error:", error);
+        setSnackbarMessage(`Login failed: ${error.message}`); 
+        setSnackbarSeverity('error');
+        setSnackbarOpen(true);
+      });
+  };
 
-  }
+  const handleOpenSignup = () => {
+    setOpenSignup(true);
+  };
+
+  const handleCloseSignup = () => {
+    setOpenSignup(false);
+  };
+
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  };
+
+  const handleSignup = (e) => {
+    e.preventDefault();
+    createUserWithEmailAndPassword(auth, signupEmail, signupPassword)
+      .then((userCredential) => {
+        setSnackbarMessage('Sign up successful!');
+        setSnackbarSeverity('success');
+        setSnackbarOpen(true);
+        handleCloseSignup();
+      })
+      .catch((error) => {
+        console.error("Signup error:", error);
+        setSnackbarMessage('Signup error, please try again!');
+        setSnackbarSeverity('error');
+        setSnackbarOpen(true);
+      });
+  };
+
+  const signupDialog = (
+    <div>
+    <Dialog open={openSignup} onClose={handleCloseSignup}>
+      <DialogTitle>Create an Account</DialogTitle>
+      <DialogContent>
+        <TextField
+          autoFocus
+          margin="dense"
+          id="name"
+          label="Full Name"
+          type="text"
+          fullWidth
+          variant="outlined"
+          value={fullName}
+          onChange={(e) => setFullName(e.target.value)}
+        />
+        <TextField
+          margin="dense"
+          id="signup-email"
+          label="Email Address"
+          type="email"
+          fullWidth
+          variant="outlined"
+          value={signupEmail}
+          onChange={(e) => setSignupEmail(e.target.value)}
+        />
+        <TextField
+          margin="dense"
+          id="signup-password"
+          label="Password"
+          type="password"
+          fullWidth
+          variant="outlined"
+          value={signupPassword}
+          onChange={(e) => setSignupPassword(e.target.value)}
+        />
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleCloseSignup}>Cancel</Button>
+        <Button onClick={handleSignup} color="primary">Sign Up</Button>
+      </DialogActions>
+    </Dialog>
+    <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }} 
+      >
+        <Alert
+          onClose={handleSnackbarClose}
+          severity={snackbarSeverity}
+          sx={{
+            width: '100%',
+            fontSize: '1rem', 
+            fontWeight: 'bold', 
+            backgroundColor: () => theme.palette[snackbarSeverity].dark, 
+            color: 'common.white', 
+            boxShadow: 6 
+          }}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
+    </div>
+  );
 
   const renderForm = (
     <>
@@ -121,7 +227,7 @@ export default function LoginView() {
         >
           <Typography variant="h4">Sign in to Profiloverse!</Typography>
 
-          <Button variant="body2" color='inherit' sx={{ mt: 2, mb: 5 }}>
+          <Button onClick={handleOpenSignup} variant="body2" color='inherit' sx={{ mt: 2, mb: 5 }}>
             Don’t have an account?
           </Button>
 
@@ -166,6 +272,28 @@ export default function LoginView() {
           {renderForm}
         </Card>
       </Stack>
+      <Snackbar
+      open={snackbarOpen}
+      autoHideDuration={6000}
+      onClose={handleSnackbarClose}
+      anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+    >
+      <Alert
+        onClose={handleSnackbarClose}
+        severity={snackbarSeverity}
+        sx={{
+          width: '100%',
+          fontSize: '1rem',
+          fontWeight: 'bold',
+          backgroundColor: () => theme.palette[snackbarSeverity].dark,
+          color: 'common.white',
+          boxShadow: 6
+        }}
+      >
+        {snackbarMessage}
+      </Alert>
+    </Snackbar>
+      {signupDialog}
     </Box>
   );
 }
