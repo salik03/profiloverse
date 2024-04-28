@@ -71,8 +71,8 @@ description:{job_description}
 I want the response in one single string having the structure
 {{"Job Description Match":"%","Missing Keywords":"","Candidate Summary":"","Experience":""}}
 """
-job_description = "Desc"  #Enter job description here
-uploaded_file = "/content/AkashGoel.docx" 
+job_description = "Backend Developer"  #Enter job description here
+uploaded_file = "Resume.pdf" 
 
 if uploaded_file is not None:
     if check_file_type(uploaded_file) == "application/pdf":
