@@ -11,11 +11,15 @@ import pandas as pd
 service = Service(ChromeDriverManager().install())
 options = webdriver.ChromeOptions()
 driver = webdriver.Chrome(service=service, options=options)
-jobs={"roles":[],
-     "companies":[],
-     "locations":[],
-     "experience":[],
-     "skills":[]}
+jobs = {
+    "Role": [],
+    "Company": [],
+    "Location": [],
+    "Start Date": [],
+    "Duration": [],
+    "Stipend": [],
+    "Posted": []
+}
 for i in range(5):
         driver.get("https://internshala.com/internships/".format(i))
         time.sleep(3)
