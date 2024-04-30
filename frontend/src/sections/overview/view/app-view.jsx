@@ -108,7 +108,7 @@ export default function AppView() {
                 </Typography>
               </CardContent>
               <CardActions>
-                <Button size="small">Learn More</Button>
+                <Button size="small">Add Job</Button>
               </CardActions>
             </Card>
           </Grid>
