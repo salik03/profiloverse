@@ -4,6 +4,7 @@ import { Link as RouterLink } from 'react-router-dom';
 
 import {
   Box,
+  Link,
   Card,
   List,
   Grid,
@@ -15,11 +16,15 @@ import {
   TextField,
   CardMedia,
   Typography,
+  IconButton,
   CardContent,
-  ListItemText
+  ListItemText,
 } from '@mui/material';
 
 import { account } from 'src/_mock/account'; 
+
+import Iconify from 'src/components/iconify';
+
 
 const UserPage = () => {
   const [userData, setUserData] = useState({
@@ -28,7 +33,7 @@ const UserPage = () => {
     profession: 'Software Developer',
     savedJobs: ['Job 1', 'Job 2'],
     appliedJobs: ['Job 3'],
-    resumeDrafts: ['Resume 1', 'Resume 2'],
+    resumeDrafts: [],
     pdfPreviewUrl: null
   });
 
@@ -62,19 +67,57 @@ const UserPage = () => {
     }
   };
 
-  const renderListItems = (items) => (
+  const handleSaveResume = () => {
+    if (userData.pdfPreviewUrl) {
+      setUserData(prevData => ({
+        ...prevData,
+        resumeDrafts: [...prevData.resumeDrafts, userData.pdfPreviewUrl]
+      }));
+    }
+  };
+
+  const handleRemoveItem = (section, index) => {
+    console.log('Section:', section);
+    console.log('Items before removing:', userData[section]);
+  
+    setUserData(prevData => {
+      console.log('Current data for section:', prevData[section]);
+      if (!prevData[section]) {
+        console.error(`No data found for section: ${section}`);
+        return prevData; 
+      }
+      return {
+        ...prevData,
+        [section]: prevData[section].filter((_, i) => i !== index)
+      };
+    });
+  };
+  
+  
+
+  const renderListItems = (items, section) => (
     <List>
       {items.map((item, index) => (
         <React.Fragment key={index}>
-          <ListItem>
-            <ListItemText primary={item} />
+          <ListItem
+            secondaryAction={
+              <IconButton edge="end" onClick={() => handleRemoveItem(section, index)}>
+                <Iconify icon= "eva:close-fill"/>
+              </IconButton>
+            }
+          >
+            {section === 'resumeDrafts' ? (
+              <ListItemText primary={<Link href={item} target="_blank" rel="noopener noreferrer">Resume Draft {index + 1}</Link>} />
+            ) : (
+              <ListItemText primary={item} />
+            )}
           </ListItem>
           {index < items.length - 1 && <Divider />}
         </React.Fragment>
       ))}
     </List>
   );
-
+  
   return (
     <Container>
       <Typography variant="h4" gutterBottom>
@@ -143,12 +186,20 @@ const UserPage = () => {
               component={RouterLink}
               to="https://profiloverse-resumebuilder.vercel.app/"
               variant="contained"
-              sx={{ mt: 1 }}
+              sx={{ mt: 1, mr: 1 }}
             >
               Build Your Resume
             </Button>
+            <Button
+              onClick={handleSaveResume}
+              variant="contained"
+              sx={{ mt: 1 }}
+            >
+              Save Resume
+            </Button>
           </Card>
         </Grid>
+        
         <Grid item xs={12}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={4}>
@@ -166,7 +217,7 @@ const UserPage = () => {
             <Grid item xs={12} sm={4}>
               <Card sx={{ padding: 2, mt: 2 }}>
                 <Typography variant="h6">Resume Drafts</Typography>
-                {renderListItems(userData.resumeDrafts)}
+                {renderListItems(userData.resumeDrafts, 'resumeDrafts')}
               </Card>
             </Grid>
           </Grid>
