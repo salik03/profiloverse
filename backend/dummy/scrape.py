@@ -28,6 +28,9 @@ def generate_internship():
         "Stipend": "{} INR per month".format(stipend),
         "Posted": (start_date - timedelta(days=random.randint(0, 30))).strftime('%Y-%m-%d')
     }
+@app.route('/')
+def home():
+    return "didnt sleep for this :("
 
 @app.route('/api/internships')
 def internships():
