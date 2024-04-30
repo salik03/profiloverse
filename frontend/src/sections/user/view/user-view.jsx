@@ -16,7 +16,8 @@ import {
   CardMedia,
   Typography,
   CardContent,
-  ListItemText
+  ListItemText,
+  Link,
 } from '@mui/material';
 
 import { account } from 'src/_mock/account'; 
@@ -62,19 +63,32 @@ const UserPage = () => {
     }
   };
 
-  const renderListItems = (items) => (
+  const handleSaveResume = () => {
+    if (userData.pdfPreviewUrl) {
+      setUserData(prevData => ({
+        ...prevData,
+        resumeDrafts: [...prevData.resumeDrafts, userData.pdfPreviewUrl]
+      }));
+    }
+  };
+
+  const renderListItems = (items, section) => (
     <List>
       {items.map((item, index) => (
         <React.Fragment key={index}>
           <ListItem>
-            <ListItemText primary={item} />
+            {section === 'resumeDrafts' ? (
+              <ListItemText primary={<Link href={item} target="_blank" rel="noopener noreferrer">Resume Draft {index + 1}</Link>} />
+            ) : (
+              <ListItemText primary={item} />
+            )}
           </ListItem>
           {index < items.length - 1 && <Divider />}
         </React.Fragment>
       ))}
     </List>
   );
-
+  
   return (
     <Container>
       <Typography variant="h4" gutterBottom>
@@ -143,12 +157,20 @@ const UserPage = () => {
               component={RouterLink}
               to="https://profiloverse-resumebuilder.vercel.app/"
               variant="contained"
-              sx={{ mt: 1 }}
+              sx={{ mt: 1, mr: 1 }}
             >
               Build Your Resume
             </Button>
+            <Button
+              onClick={handleSaveResume}
+              variant="contained"
+              sx={{ mt: 1 }}
+            >
+              Save Resume
+            </Button>
           </Card>
         </Grid>
+        
         <Grid item xs={12}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={4}>
@@ -166,7 +188,7 @@ const UserPage = () => {
             <Grid item xs={12} sm={4}>
               <Card sx={{ padding: 2, mt: 2 }}>
                 <Typography variant="h6">Resume Drafts</Typography>
-                {renderListItems(userData.resumeDrafts)}
+                {renderListItems(userData.resumeDrafts, 'resumeDrafts')}
               </Card>
             </Grid>
           </Grid>

@@ -986,7 +986,7 @@
     "@supabase/realtime-js" "2.9.4"
     "@supabase/storage-js" "2.5.5"
 
-"@swc/core-win32-x64-msvc@1.3.92":
+"@swc/core-darwin-arm64@1.3.92":
   version "1.3.92"
   resolved "https://registry.npmjs.org/@swc/core-darwin-arm64/-/core-darwin-arm64-1.3.92.tgz"
   integrity sha512-v7PqZUBtIF6Q5Cp48gqUiG8zQQnEICpnfNdoiY3xjQAglCGIQCjJIDjreZBoeZQZspB27lQN4eZ43CX18+2SnA==
