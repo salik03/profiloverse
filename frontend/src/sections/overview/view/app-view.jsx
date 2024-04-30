@@ -10,16 +10,46 @@ import AppOrderTimeline from '../app-order-timeline';
 import AppCurrentVisits from '../app-current-visits';
 import AppWidgetSummary from '../app-widget-summary';
 import AppConversionRates from '../app-conversion-rates';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 // import AppTasks from '/Users/mansi/Desktop/profiloverse/frontend/src/sections/overview/app-tasks.jsx';
 
 // ----------------------------------------------------------------------
 
 export default function AppView() {
+const [internships, setInternships] = useState([]);
+
+  useEffect(() => {
+    axios.get('https://profiloverse.onrender.com/api/internships')
+      .then(response => {
+        setInternships(response.data);  
+      })
+      .catch(error => console.error('Error fetching internships:', error));
+  }, []);
+
+
+
   return (
     <Container maxWidth="xl">
       <Typography variant="h4" sx={{ mb: 5 }}>
         Hi, Welcome back 👋 
       </Typography>
+
+      <Grid container spacing={3}>
+        {internships.map((internship, index) => (
+          <Grid key={index} item xs={12} sm={6} md={4}>
+            <div>
+              <h3>{internship.Role}</h3>
+              <p>{internship.Company} - {internship.Location}</p>
+              <p>Start Date: {internship['Start Date']}</p>
+              <p>Duration: {internship.Duration}</p>
+              <p>Stipend: {internship.Stipend}</p>
+              <p>Posted on: {internship.Posted}</p>
+            </div>
+          </Grid>
+        ))}
+      </Grid>
+
 
       <Grid container spacing={3}>
         <Grid xs={12} sm={6} md={3}>

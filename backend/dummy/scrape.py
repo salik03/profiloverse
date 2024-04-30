@@ -2,9 +2,12 @@ from flask import Flask, jsonify
 from faker import Faker
 import random
 from datetime import datetime, timedelta
+from flask_cors import CORS  
 
 app = Flask(__name__)
-fake = Faker('en_IN')  # Locale set to India
+CORS(app)  
+fake = Faker('en_IN') 
+
 
 # List of popular Indian cities
 popular_cities = [
