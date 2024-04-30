@@ -31,8 +31,8 @@ const UserPage = () => {
     name: account.displayName,
     email: account.email,
     profession: 'Software Developer',
-    savedJobs: ['Job 1', 'Job 2'],
-    appliedJobs: ['Job 3'],
+    savedJobs: ['Advertising Account Executive', 'Copywriter, Advertising'],
+    appliedJobs: ['Secretary/administrator'],
     resumeDrafts: [],
     pdfPreviewUrl: null
   });

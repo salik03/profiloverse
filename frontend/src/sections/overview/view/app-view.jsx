@@ -8,7 +8,6 @@ import Typography from '@mui/material/Typography';
 import { Card, Button, CardActions, CardContent } from '@mui/material';
 
 import AppTasks from '../app-tasks';
-import AppNewsUpdate from '../app-news-update';
 import AppOrderTimeline from '../app-order-timeline';
 import AppCurrentVisits from '../app-current-visits';
 import AppWidgetSummary from '../app-widget-summary';
@@ -155,21 +154,7 @@ export default function AppView() {
           />
         </Grid>
 
-
         <Grid xs={12} md={6} lg={8}>
-          <AppNewsUpdate
-            title="Recent Job Updates"
-            list={[...Array(5)].map((_, index) => ({
-              id: faker.string.uuid(),
-              title: faker.person.jobTitle(),
-              description: faker.company.name(),
-              image: `/assets/images/covers/cover_${index + 1}.jpg`,
-              postedAt: faker.date.recent(),
-            }))}
-          />
-        </Grid>
-
-        <Grid xs={12} md={6} lg={4}>
           <AppCurrentVisits
             title="Skills in demand"
             chart={{
@@ -187,13 +172,17 @@ export default function AppView() {
         </Grid>
 
 
-        <Grid xs={12} md={6} lg={8}>
+        <Grid xs={12} md={6} lg={4}>
           <AppTasks
             title="Tasks"
             list={[
               { id: '1', name: 'Assignment due for YardStick.' },
               { id: '2', name: 'Assignment due for APLTech.' },
               { id: '3', name: 'Complete your application for SteelEye.' },
+              { id: '4', name: 'Complete your application for SteelEye.' },
+              { id: '5', name: 'Complete your application for SteelEye.' },
+              { id: '6', name: 'Complete your application for SteelEye.' },
+              { id: '7', name: 'Complete your application for SteelEye.' },
             ]}
           />
         </Grid>
